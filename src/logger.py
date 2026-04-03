@@ -14,7 +14,7 @@ LOG_DIR = Path(PROJECT_ROOT) / "log"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / "processing.log"
 
-def setup_logger(name: str = "ImageProcessor") -> Logger:
+def setup_logger(name: str = "ImageProcessor") -> Logger | None:
     """
     Configures and returns a logger instance.
     Prevents duplicate handlers if called multiple times.
@@ -45,6 +45,7 @@ logger = setup_logger()
 
 @contextmanager
 def log_runtime(description: str):
+    if logger == None: return 
     """
     특정 코드 블록의 실행 시간을 측정하여 로그로 남깁니다.
     """
