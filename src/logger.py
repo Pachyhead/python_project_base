@@ -12,7 +12,6 @@ from config import PROJECT_ROOT
 # Define log directory and file path
 LOG_DIR = Path(PROJECT_ROOT) / "log"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
-LOG_FILE = LOG_DIR / "processing.log"
 
 def setup_logger(name: str = "ImageProcessor") -> Logger | None:
     """
@@ -23,6 +22,8 @@ def setup_logger(name: str = "ImageProcessor") -> Logger | None:
         print("logger name is empty")
         return
     logger = logging.getLogger(name)
+
+    LOG_FILE = LOG_DIR / f"{name}__processing.log"
     
     if not logger.handlers:
         logger.setLevel(logging.INFO)
