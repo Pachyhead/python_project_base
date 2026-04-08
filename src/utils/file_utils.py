@@ -3,7 +3,7 @@ from pathlib import Path
 
 from config import PROJECT_ROOT
 
-def get_file_iterator(directory_path: str=os.path.join(PROJECT_ROOT, "source"), extension: str = ""):
+def get_file_iterator(directory_path: Path=(PROJECT_ROOT / "source"), extension: str = ""):
     """
     read the directory and get the file iterator
     default directory is project/source
