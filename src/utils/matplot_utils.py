@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 @dataclass
 class ImageResult:
@@ -53,3 +54,31 @@ def plot_to_array(plot_func, *args, **kwargs):
     plt.close(fig)
     
     return img
+
+def draw_hist(ax, df: pd.DataFrame, title: str = "Histogram", color: str="skyblue"):
+    """
+    Draw a histogram using a DataFrame.
+    Columns must be: 'Bin' (구간) and 'Frequency' (빈도).
+    """
+    required_cols = ['Bin', 'Frequency']
+    if not all(col in df.columns for col in required_cols):
+        raise ValueError(f"DataFrame must have columns: {required_cols}")
+    
+    sorted_df = df.sort_values(by='Bin', ascending=True)
+    n_bins = len(sorted_df)
+
+    indices = np.arange(n_bins)
+
+    step = max(1, n_bins // 10)
+    x = [str(val) if i % step == 0 else "" for i, val in enumerate(sorted_df['Bin'])]
+    y = sorted_df['Frequency']
+
+    width = 0.8 / (1 + 0.1 * (n_bins - 1))
+    ax.bar(indices, y, width=width, color=color, edgecolor='black', alpha=0.8)
+    
+    ax.set_xticks(indices)
+    ax.set_xticklabels(x)
+    
+    ax.set_title(title)
+    ax.set_xlabel("Bin")
+    ax.set_ylabel("Frequency")
