@@ -82,3 +82,23 @@ def draw_hist(ax, df: pd.DataFrame, title: str = "Histogram", color: str="skyblu
     ax.set_title(title)
     ax.set_xlabel("Bin")
     ax.set_ylabel("Frequency")
+
+def draw_2d_function(ax, func, x_range: tuple[float, float], n_points: int = 100, title: str = "Function Plot", color: str = "blue"):
+    """
+    Draw a mathematical function y = f(x) on the given axes.
+    """
+    x = np.linspace(x_range[0], x_range[1], n_points)
+    
+    try:
+        y = func(x)
+    except Exception as e:
+        raise ValueError(f"The provided function failed to execute: {e}")
+
+    ax.plot(x, y, color=color, linewidth=2, label=f"y = f(x)")
+    
+    ax.set_title(title)
+    ax.set_xlabel("x")
+    ax.set_ylabel("f(x)")
+    ax.grid(True, linestyle='--', alpha=0.6)
+    ax.axhline(0, color='black', linewidth=0.5)
+    ax.axvline(0, color='black', linewidth=0.5)
