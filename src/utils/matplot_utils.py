@@ -37,3 +37,19 @@ def show_images(results: list[ImageResult], grid: tuple[int, int], fig_size: int
 
     plt.tight_layout()
     plt.show()
+
+
+def plot_to_array(plot_func, *args, **kwargs):
+    """
+    Convert a matplotlib figure to a numpy array without PIL.
+    """
+    fig, ax = plt.subplots()
+    plot_func(ax, *args, **kwargs)
+
+    fig.canvas.draw()
+
+    img = np.array(fig.canvas.buffer_rgba()) # type: ignore
+
+    plt.close(fig)
+    
+    return img
