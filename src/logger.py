@@ -13,14 +13,13 @@ from config import PROJECT_ROOT
 LOG_DIR = Path(PROJECT_ROOT) / "log"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-def setup_logger(name: str = "ImageProcessor") -> Logger | None:
+def setup_logger(name: str = "ImageProcessor") -> Logger:
     """
     Configures and returns a logger instance.
     Prevents duplicate handlers if called multiple times.
     """
     if name == "":
-        print("logger name is empty")
-        return
+        raise ValueError("logger name is empty")
     logger = logging.getLogger(name)
 
     LOG_FILE = LOG_DIR / f"{name}__processing.log"
@@ -46,7 +45,6 @@ logger = setup_logger()
 
 @contextmanager
 def log_runtime(description: str):
-    if logger == None: return 
     """
     특정 코드 블록의 실행 시간을 측정하여 로그로 남깁니다.
     """
